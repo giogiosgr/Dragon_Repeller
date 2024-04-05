@@ -1,5 +1,8 @@
 let xp = 0;
+let gainedXp;
 let health = 100;
+let healthDiff;
+let maxHealth = 100;
 let gold = 50;
 let currentWeapon = 0;
 let fighting;
@@ -12,6 +15,7 @@ const button3 = document.querySelector("#button3");
 const text = document.querySelector("#text");
 const xpText = document.querySelector("#xpText");
 const healthText = document.querySelector("#healthText");
+const maxHealthText = document.querySelector("#maxHealthText");
 const goldText = document.querySelector("#goldText");
 const monsterStats = document.querySelector("#monsterStats");
 const monsterName = document.querySelector("#monsterName");
@@ -48,7 +52,7 @@ const locations = [
   },
   {
     name: "store",
-    "button text": ["Buy 10 health (10 gold)", "Buy weapon (30 gold)", "Go to town square"],
+    "button text": [`Buy 0 health (0 gold)`, "Buy weapon (30 gold)", "Go to town square"],
     "button functions": [buyHealth, buyWeapon, goTown],
     text: "You enter the store."
   },
@@ -74,13 +78,13 @@ const locations = [
     name: "lose",
     "button text": ["REPLAY?", "REPLAY?", "REPLAY?"],
     "button functions": [restart, restart, restart],
-    text: "You die. &#x2620;"
+    text: "You die. ☠️"
   },
   {
     name: "win",
     "button text": ["REPLAY?", "REPLAY?", "REPLAY?"],
     "button functions": [restart, restart, restart],
-    text: "You defeat the dragon! YOU WIN THE GAME! &#x1F389;"
+    text: "You defeat the dragon! YOU WIN THE GAME! 🎉"
   },
   {
     name: "easter egg",
@@ -103,7 +107,11 @@ function update(location) {
   button1.onclick = location["button functions"][0];
   button2.onclick = location["button functions"][1];
   button3.onclick = location["button functions"][2];
-  text.innerHTML = location.text;
+  if (location.name == "store") {
+    healthDiff = Math.min(10, maxHealth - health);
+    button1.innerText = `Buy ${healthDiff} health (${healthDiff} gold)`
+  }
+  text.innerText = location.text;
 }
 
 function goTown() {
@@ -119,13 +127,18 @@ function goCave() {
 }
 
 function buyHealth() {
-  if (gold >= 10) {
-    gold -= 10;
-    health += 10;
+  if (gold >= 10 && health < maxHealth) {
+    health += healthDiff
+    gold -= healthDiff;
     goldText.innerText = gold;
     healthText.innerText = health;
-  } else {
+    text.innerText = `You bought ${healthDiff} health for ${healthDiff} gold`
+    healthDiff = Math.min(10, maxHealth - health);
+    button1.innerText = `Buy ${healthDiff} health (${healthDiff} gold)`
+  } else if (gold < 10) {
     text.innerText = "You do not have enough gold to buy health.";
+  } else {
+    text.innerText = "You already have full health.";
   }
 }
 
@@ -227,6 +240,8 @@ function dodge() {
 function defeatMonster() {
   gold += Math.floor(monsters[fighting].level * 6.7);
   xp += monsters[fighting].level;
+  maxHealth = 100 + (Math.floor(xp / 5) * 10);
+  maxHealthText.innerText = maxHealth;
   goldText.innerText = gold;
   xpText.innerText = xp;
   update(locations[4]);
