@@ -16,6 +16,7 @@ const text = document.querySelector("#text");
 const xpText = document.querySelector("#xpText");
 const healthText = document.querySelector("#healthText");
 const maxHealthText = document.querySelector("#maxHealthText");
+const weaponText = document.querySelector("#weaponText");
 const goldText = document.querySelector("#goldText");
 const monsterStats = document.querySelector("#monsterStats");
 const monsterName = document.querySelector("#monsterName");
@@ -160,6 +161,7 @@ function buyWeapon() {
     button2.innerText = "Sell weapon for 15 gold";
     button2.onclick = sellWeapon;
   }
+  updateWeapon();
 }
 
 function sellWeapon() {
@@ -172,6 +174,11 @@ function sellWeapon() {
   } else {
     text.innerText = "Don't sell your only weapon!";
   }
+  updateWeapon();
+}
+
+function updateWeapon() {
+  weaponText.innerText = inventory[inventory.length - 1];
 }
 
 function fightSlime() {
@@ -220,6 +227,7 @@ function attack() {
   if (Math.random() <= .1 && inventory.length !== 1) {
     text.innerText += " Your " + inventory.pop() + " breaks.";
     currentWeapon--;
+    updateWeapon();
   }
 }
 
@@ -258,9 +266,11 @@ function winGame() {
 function restart() {
   xp = 0;
   health = 100;
+  maxHealth = 100;
   gold = 50;
   currentWeapon = 0;
   inventory = ["stick"];
+  weaponText.innerText = "stick"
   goldText.innerText = gold;
   healthText.innerText = health;
   xpText.innerText = xp;
