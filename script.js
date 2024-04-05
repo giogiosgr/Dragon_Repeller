@@ -161,7 +161,7 @@ function buyWeapon() {
     button2.innerText = "Sell weapon for 15 gold";
     button2.onclick = sellWeapon;
   }
-  updateWeapon();
+  updateWeaponText();
 }
 
 function sellWeapon() {
@@ -174,10 +174,10 @@ function sellWeapon() {
   } else {
     text.innerText = "Don't sell your only weapon!";
   }
-  updateWeapon();
+  updateWeaponText();
 }
 
-function updateWeapon() {
+function updateWeaponText() {
   weaponText.innerText = inventory[inventory.length - 1];
 }
 
@@ -224,10 +224,17 @@ function attack() {
       defeatMonster();
     }
   }
-  if (Math.random() <= .1 && inventory.length !== 1) {
-    text.innerText += " Your " + inventory.pop() + " breaks.";
-    currentWeapon--;
-    updateWeapon();
+  if (Math.random() <= .5 && (inventory.length !== 1 || currentWeapon !== 0)) {
+    if (inventory.length == 1) {
+      text.innerText += " Your " + inventory[inventory.length - 1] + " breaks."
+      currentWeapon = 0;
+      inventory[currentWeapon] = "stick";
+    }
+    else {
+      text.innerText += " Your " + inventory.pop() + " breaks.";
+      currentWeapon--;
+    }
+    updateWeaponText();
   }
 }
 
@@ -270,7 +277,7 @@ function restart() {
   gold = 50;
   currentWeapon = 0;
   inventory = ["stick"];
-  weaponText.innerText = "stick"
+  weaponText.innerText = "stick";
   goldText.innerText = gold;
   healthText.innerText = health;
   xpText.innerText = xp;
