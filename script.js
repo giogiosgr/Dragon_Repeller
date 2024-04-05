@@ -240,7 +240,7 @@ function dodge() {
 function defeatMonster() {
   gold += Math.floor(monsters[fighting].level * 6.7);
   xp += monsters[fighting].level;
-  maxHealth = 100 + (Math.floor(xp / 5) * 20);
+  maxHealth = 100 + (Math.floor(xp / 5) * 10);
   maxHealthText.innerText = maxHealth;
   goldText.innerText = gold;
   xpText.innerText = xp;
