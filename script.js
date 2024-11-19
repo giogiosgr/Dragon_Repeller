@@ -1,9 +1,11 @@
 let xp = 0;
+let earnedXp;
 let gainedXp;
 let health = 100;
 let healthDiff;
 let maxHealth = 100;
 let gold = 50;
+let earnedGold;
 let currentWeapon = 0;
 let fighting;
 let monsterHealth;
@@ -73,7 +75,7 @@ const locations = [
     name: "kill monster",
     "button text": ["Go to town square", "Go to town square", "Go to town square"],
     "button functions": [goTown, goTown, easterEgg],
-    text: 'The monster screams "Arg!" as it dies. You gain experience points and find gold.'
+    text: 'The monster screams "Arg!" as it dies.'
   },
   {
     name: "lose",
@@ -113,6 +115,9 @@ function update(location) {
     button1.innerText = `Buy ${healthDiff} health (${healthDiff} gold)`
   }
   text.innerText = location.text;
+  if (location.name == "kill monster") {
+    text.innerText += ` You gain ${earnedXp} experience points and find ${earnedGold} gold`;
+  }
 }
 
 function goTown() {
@@ -254,8 +259,10 @@ function dodge() {
 }
 
 function defeatMonster() {
-  gold += Math.floor(monsters[fighting].level * 6.7);
-  xp += monsters[fighting].level;
+  earnedGold = Math.floor(monsters[fighting].level * 6.7);
+  gold += earnedGold;
+  earnedXp = monsters[fighting].level;
+  xp += earnedXp;
   maxHealth = 100 + (Math.floor(xp / 5) * 10);
   maxHealthText.innerText = maxHealth;
   goldText.innerText = gold;
