@@ -224,7 +224,7 @@ function attack() {
       defeatMonster();
     }
   }
-  //fix: se l'unica arma non è stick, deve poter rompersi.
+  //fix: all weapons but Stick can break.
   if (Math.random() <= .1 && (inventory.length !== 1 || currentWeapon !== 0)) {
     if (inventory.length == 1) {
       text.innerText += " Your " + inventory[inventory.length - 1] + " breaks."
