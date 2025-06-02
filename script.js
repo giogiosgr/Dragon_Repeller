@@ -75,7 +75,7 @@ const locations = [
     name: "kill monster",
     "button text": ["Go to town square", "Go to town square", "Go to town square"],
     "button functions": [goTown, goTown, easterEgg],
-    text: 'The monster screams "Arg!" as it dies.'
+    text: 'The monster screams "Argh!" as it dies.'
   },
   {
     name: "lose",
